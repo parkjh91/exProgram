@@ -53,11 +53,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aaa\\Desktop\\CordingTest\\Pipeline9\\Pipeline\\Pipeline.csproj",
+      "projectUniqueName": "C:\\Users\\aaa\\Desktop\\CordingTest\\Pipeline10\\Pipeline\\Pipeline.csproj",
       "projectName": "Pipeline",
-      "projectPath": "C:\\Users\\aaa\\Desktop\\CordingTest\\Pipeline9\\Pipeline\\Pipeline.csproj",
+      "projectPath": "C:\\Users\\aaa\\Desktop\\CordingTest\\Pipeline10\\Pipeline\\Pipeline.csproj",
       "packagesPath": "C:\\Users\\aaa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aaa\\Desktop\\CordingTest\\Pipeline9\\Pipeline\\obj\\",
+      "outputPath": "C:\\Users\\aaa\\Desktop\\CordingTest\\Pipeline10\\Pipeline\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\aaa\\AppData\\Roaming\\NuGet\\NuGet.Config",
