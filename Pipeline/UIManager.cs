@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Numerics;
+using System.Collections.Generic;
 
 namespace Pipeline
 {
@@ -182,7 +183,8 @@ namespace Pipeline
                     InputPipeInfo();
                     break;
                 case CRUD.PipeList:
-                    repository.EnterPipeList();
+                    //repository.EnterPipeList();
+                    ShowPipeInfo();
                     break;
                 case CRUD.PipeModify:
                     repository.EnterPipeModify();
@@ -248,6 +250,25 @@ namespace Pipeline
 
             Console.Clear();
             Console.WriteLine("생성되었습니다.");
+            Console.ReadLine();
+        }
+
+        public void ShowPipeInfo()
+        {
+            List<Pipeline> pipes = repositorys.GetPipeInfo();
+            Console.Clear();
+
+            if(pipes.Count == 0)
+            {
+                Console.WriteLine("입력된 파이프 정보가 없습니다.");
+                Console.ReadLine();
+                return;
+            }
+
+            for(int i = 0; i < pipes.Count; i++)
+            {
+                Console.WriteLine(pipes[i].ToString());
+            }
             Console.ReadLine();
         }
     }

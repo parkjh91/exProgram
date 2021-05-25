@@ -8,6 +8,7 @@ namespace Pipeline
     class Repositorys
     {
         List<Pipeline> pipelines = new List<Pipeline>();
+        int count = 1;
 
         // ID Check 일치하는 것이 있으면 false 없으면 true
         public bool CheckID(string id)
@@ -34,7 +35,13 @@ namespace Pipeline
             pipe.PipeDiameter = dia;
             pipe.PipeColor = color;
             pipe.TakeLength();
+            pipe.PipeIndex = count++;
             pipelines.Add(pipe);
+        }
+
+        public List<Pipeline> GetPipeInfo()
+        {
+            return pipelines;
         }
     }
 }
