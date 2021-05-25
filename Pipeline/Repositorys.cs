@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace Pipeline
 {
     class Repositorys
     {
         List<Pipeline> pipelines = new List<Pipeline>();
+        PipeProperty pipeProperty = new PipeProperty();
+        List<PipeProperty> propertyList = new List<PipeProperty>();
+        
         int count = 1;
+        bool isFileOpenSucceed = true;
 
         // ID Check 일치하는 것이 있으면 false 없으면 true
         public bool CheckID(string id)
@@ -82,6 +89,103 @@ namespace Pipeline
             for(int j = index; j < pipelines.Count; j++)
             {
                 pipelines[j].PipeIndex = j + 1;
+            }
+
+            return true;
+        }
+
+        // json 파일 불러와서 저장하기
+        public void LoadJson(KindOfCompany kind)
+        {
+            pipeProperty = propertyList[(int)kind];
+
+            if (!isFileOpenSucceed)
+            {
+                isFileOpenSucceed = true;
+                return;
+            }
+
+            JArray jsonDoc = JArray.Parse(pipeProperty.allText);
+
+            string posStr;
+            string[] posStrArray;
+            string[] posArray;
+            Vector3[] vectors = new Vector3[2];
+            float x;
+            float y;
+            float z;
+            foreach (JObject item in jsonDoc)
+            {
+                if (CheckID(item[pipeProperty.id].ToString()))
+                {
+                    Pipeline pipe = new Pipeline
+                    {
+                        PipeID = item[pipeProperty.id].ToString(),
+                        KindOfPipe = item[pipeProperty.obstName].ToString(),
+                        PipeColor = item[pipeProperty.color].ToString(),
+                        PipeDiameter = float.Parse(item[pipeProperty.pipeDia].ToString())
+                    };
+
+                    posStr = Regex.Replace(item[pipeProperty.position].ToString(), @"[^0-9\.\,\s]", "");
+
+                    posStrArray = posStr.Split("  ");
+                    posStrArray = posStrArray[1].Split(',');
+
+                    for (int i = 0; i < posStrArray.Length; i++)
+                    {
+                        posArray = posStrArray[i].Split(' ');
+                        x = float.Parse(posArray[0]);
+                        y = float.Parse(posArray[1]);
+                        z = float.Parse(posArray[2]);
+
+                        vectors[i] = new Vector3(x, y, z);
+                    }
+
+                    pipe.StartPosition = vectors[0];
+                    pipe.EndPosition = vectors[1];
+                    pipe.TakeLength();
+                    pipe.PipeIndex = Util.Instance().pipeCount;
+                    Util.Instance().pipeCount++;
+
+                    pipelines.Add(pipe);
+                }
+            }
+        }
+
+        // 불러올 json형식의 파일 초기화
+        public void SetPipeProperty()
+        {
+            // Pangyo
+            string path = @"./Pipeline Data.txt";
+
+            isFileOpenSucceed = CheckFile(path);
+            pipeProperty.allText = File.ReadAllText(path);
+            pipeProperty.id = "linkId";
+            pipeProperty.obstName = "obstName";
+            pipeProperty.position = "geom";
+            pipeProperty.pipeDia = "pipeDia";
+            pipeProperty.color = "obstColor";
+
+            propertyList.Add(pipeProperty);
+
+            // LG
+            LGJson lgjson = new LGJson();
+
+            pipeProperty.allText = lgjson.LGJsonAllText;
+            pipeProperty.id = "gid";
+            pipeProperty.obstName = "obstname";
+            pipeProperty.position = "geom";
+            pipeProperty.pipeDia = "pipe_dia";
+            pipeProperty.color = "color";
+
+            propertyList.Add(pipeProperty);
+        }
+
+        private bool CheckFile(string path)
+        {
+            if (!System.IO.File.Exists(path))
+            {
+                return false;
             }
 
             return true;
