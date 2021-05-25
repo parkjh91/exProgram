@@ -39,9 +39,27 @@ namespace Pipeline
             pipelines.Add(pipe);
         }
 
+        // 정보 반환
         public List<Pipeline> GetPipeInfo()
         {
             return pipelines;
+        }
+
+        // 수정
+        public void ModifyPipe(string id, Vector3 startPos, Vector3 endPos, string obstName, float dia, string color)
+        {
+            for(int i = 0; i < pipelines.Count; i++)
+            {
+                if(id == pipelines[i].PipeID)
+                {
+                    pipelines[i].StartPosition = startPos;
+                    pipelines[i].EndPosition = endPos;
+                    pipelines[i].KindOfPipe = obstName;
+                    pipelines[i].PipeDiameter = dia;
+                    pipelines[i].PipeColor = color;
+                    pipelines[i].TakeLength();
+                }
+            }
         }
     }
 }

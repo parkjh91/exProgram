@@ -187,7 +187,8 @@ namespace Pipeline
                     ShowPipeInfo();
                     break;
                 case CRUD.PipeModify:
-                    repository.EnterPipeModify();
+                    //repository.EnterPipeModify();
+                    SendModifyValues();
                     break;
                 case CRUD.PipeDelete:
                     repository.EnterPipeDelete();
@@ -269,6 +270,51 @@ namespace Pipeline
             {
                 Console.WriteLine(pipes[i].ToString());
             }
+            Console.ReadLine();
+        }
+
+        public void SendModifyValues()
+        {
+            string id;
+            string[] strPos;
+            int[] pos;
+            Vector3 startPos;
+            Vector3 endPos;
+            string name;
+            float dia;
+            string color;
+
+            Console.Clear();
+            while(true)
+            {
+                Console.WriteLine("수정하실 파이프의 ID를 입력하세요.");
+                id = Console.ReadLine();
+                if (!repositorys.CheckID(id)) break; // 일치하는 id가 없으면 true
+                Console.WriteLine("일치하는 ID가 없습니다.");
+            }
+
+            Console.WriteLine("시작 좌표 X, Y, Z의 값을 입력바랍니다.");
+            strPos = Console.ReadLine().Split(' ');
+            pos = Util.Instance().CheckEx(strPos);
+            startPos = new Vector3(pos[0], pos[1], pos[2]);
+
+            Console.WriteLine("끝 좌표 X, Y, Z의 값을 입력바랍니다.");
+            strPos = Console.ReadLine().Split(' ');
+            pos = Util.Instance().CheckEx(strPos);
+            endPos = new Vector3(pos[0], pos[1], pos[2]);
+
+            Console.WriteLine("관종을 입력바랍니다.");
+            name = Console.ReadLine();
+
+            Console.WriteLine("관경을 입력바랍니다.");
+            dia = Util.Instance().CheckEx(Console.ReadLine());
+
+            Console.WriteLine("색깔을 입력바랍니다.");
+            color = Console.ReadLine();
+
+            repositorys.ModifyPipe(id, startPos, endPos, name, dia, color);
+            Console.Clear();
+            Console.WriteLine("수정이 완료되었습니다.");
             Console.ReadLine();
         }
     }
