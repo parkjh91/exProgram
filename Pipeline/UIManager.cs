@@ -191,7 +191,8 @@ namespace Pipeline
                     SendModifyValues();
                     break;
                 case CRUD.PipeDelete:
-                    repository.EnterPipeDelete();
+                    //repository.EnterPipeDelete();
+                    RequestDelete();
                     break;
                 case CRUD.LoadFile:
                     {
@@ -315,6 +316,24 @@ namespace Pipeline
             repositorys.ModifyPipe(id, startPos, endPos, name, dia, color);
             Console.Clear();
             Console.WriteLine("수정이 완료되었습니다.");
+            Console.ReadLine();
+        }
+
+        public void RequestDelete()
+        {
+            string id;
+
+            Console.Clear();
+            while(true)
+            {
+                Console.WriteLine("삭제하실 파이프의 ID를 입력바랍니다.");
+                id = Console.ReadLine();
+                if (repositorys.DeletePipe(id)) break;
+                Console.WriteLine("입력하신 ID의 파이프 정보가 없습니다.");
+            }
+
+            Console.Clear();
+            Console.WriteLine("삭제가 완료되었습니다.");
             Console.ReadLine();
         }
     }

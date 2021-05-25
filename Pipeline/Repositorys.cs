@@ -61,5 +61,30 @@ namespace Pipeline
                 }
             }
         }
+
+        // 삭제
+        public bool DeletePipe(string id)
+        {
+            if (CheckID(id)) return false;  // checkid -> 일치하는 id가 없으면 true
+
+            int index = -1;
+
+            for(int i = 0; i < pipelines.Count; i++)
+            {
+                if(id == pipelines[i].PipeID)
+                {
+                    pipelines.RemoveAt(i);
+                    count--;
+                    index = i;
+                }
+            }
+
+            for(int j = index; j < pipelines.Count; j++)
+            {
+                pipelines[j].PipeIndex = j + 1;
+            }
+
+            return true;
+        }
     }
 }
