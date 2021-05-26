@@ -21,7 +21,6 @@ namespace Pipeline
     class Repository
     {
         List<Pipeline> pipelines = new List<Pipeline>();
-        PipeProperty pipeProperty = new PipeProperty();
         List<PipeProperty> propertyList = new List<PipeProperty>();
         
         int count = 1;
@@ -112,7 +111,7 @@ namespace Pipeline
         // json 파일 불러와서 저장하기
         public void LoadJson(KindOfCompany kind)
         {
-            pipeProperty = propertyList[(int)kind];
+            PipeProperty pipeProperty = propertyList[(int)kind];
 
             if (!isFileOpenSucceed)
             {
@@ -169,6 +168,8 @@ namespace Pipeline
         // 불러올 json형식의 파일 초기화
         public void SetPipeProperty()
         {
+            PipeProperty pipeProperty = new PipeProperty();
+
             // Pangyo
             string path = @"./Pipeline Data.txt";
 

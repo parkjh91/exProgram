@@ -263,7 +263,7 @@ namespace Pipeline
             return pos;
         }
 
-        public void InputPipeInfo()
+        private void InputPipeInfo()
         {
             string id;
             string[] strPos;
@@ -309,7 +309,7 @@ namespace Pipeline
             Console.ReadLine();
         }
 
-        public void ShowPipeInfo()
+        private void ShowPipeInfo()
         {
             List<Pipeline> pipes = repository.GetPipeInfo();
             Console.Clear();
@@ -328,7 +328,7 @@ namespace Pipeline
             Console.ReadLine();
         }
 
-        public void SendModifyValues()
+        private void SendModifyValues()
         {
             string id;
             string[] strPos;
@@ -373,7 +373,7 @@ namespace Pipeline
             Console.ReadLine();
         }
 
-        public void RequestDelete()
+        private void RequestDelete()
         {
             string id;
 
