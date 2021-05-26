@@ -17,6 +17,11 @@ namespace Pipeline
         int count = 1;
         bool isFileOpenSucceed = true;
 
+        public Repositorys()
+        {
+            SetPipeProperty();
+        }
+
         // ID Check 일치하는 것이 있으면 false 없으면 true
         public bool CheckID(string id)
         {
@@ -144,8 +149,7 @@ namespace Pipeline
                     pipe.StartPosition = vectors[0];
                     pipe.EndPosition = vectors[1];
                     pipe.TakeLength();
-                    pipe.PipeIndex = Util.Instance().pipeCount;
-                    Util.Instance().pipeCount++;
+                    pipe.PipeIndex = count++;
 
                     pipelines.Add(pipe);
                 }

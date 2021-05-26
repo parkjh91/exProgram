@@ -205,7 +205,12 @@ namespace Pipeline
 
         public void PressEnterKey(KindOfCompany kind)
         {
-            repository.LoadJson(kind);
+            repositorys.LoadJson(kind);
+
+            Console.Clear();
+            Console.WriteLine("불러오기가 성공하였습니다.");
+            Console.ReadLine();
+
             Util.Instance().state = State.DataManagement;
         }
 
