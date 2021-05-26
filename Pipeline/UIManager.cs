@@ -164,7 +164,8 @@ namespace Pipeline
                     Util.Instance().state = State.DataManagement;
                     break;
                 case MainMenu.SearchObstName:
-                    repository.SearchObstName();
+                    //repository.SearchObstName();
+                    RequestSameName();
                     break;
                 case MainMenu.SearchDia:
                     repository.SearchDia();
@@ -340,6 +341,33 @@ namespace Pipeline
             Console.Clear();
             Console.WriteLine("삭제가 완료되었습니다.");
             Console.ReadLine();
+        }
+
+        private void RequestSameName()
+        {
+            string name;
+
+            Console.Clear();
+            Console.WriteLine("검색하실 관종을 입력바랍니다.");
+            name = Console.ReadLine();
+
+            List<Pipeline> pipes = repositorys.SearchSameName(name);
+
+            if(pipes.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("입력하신 관종의 파이프 정보가 없습니다.");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.Clear();
+                for(int i = 0; i < pipes.Count; i++)
+                {
+                    Console.WriteLine(pipes[i].ToString());
+                }
+                Console.ReadLine();
+            }
         }
     }
 }
