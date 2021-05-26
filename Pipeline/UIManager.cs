@@ -8,7 +8,6 @@ namespace Pipeline
     class UIManager
     {
         public Repository repository = new Repository();
-        public Repositorys repositorys = new Repositorys();
 
         // 메인화면 출력하는 함수
         public void ShowMenu(MainMenu mainMenu)
@@ -164,11 +163,9 @@ namespace Pipeline
                     Util.Instance().state = State.DataManagement;
                     break;
                 case MainMenu.SearchObstName:
-                    //repository.SearchObstName();
                     RequestSameName();
                     break;
                 case MainMenu.SearchDia:
-                    //repository.SearchDia();
                     RequestOverDia();
                     break;
                 case MainMenu.Exit:
@@ -185,15 +182,12 @@ namespace Pipeline
                     InputPipeInfo();
                     break;
                 case CRUD.PipeList:
-                    //repository.EnterPipeList();
                     ShowPipeInfo();
                     break;
                 case CRUD.PipeModify:
-                    //repository.EnterPipeModify();
                     SendModifyValues();
                     break;
                 case CRUD.PipeDelete:
-                    //repository.EnterPipeDelete();
                     RequestDelete();
                     break;
                 case CRUD.LoadFile:
@@ -207,13 +201,66 @@ namespace Pipeline
 
         public void PressEnterKey(KindOfCompany kind)
         {
-            repositorys.LoadJson(kind);
+            repository.LoadJson(kind);
 
             Console.Clear();
             Console.WriteLine("불러오기가 성공하였습니다.");
             Console.ReadLine();
 
             Util.Instance().state = State.DataManagement;
+        }
+
+        // string > int 컨버팅 예외처리 함수
+        private float CheckEx(string value)
+        {
+            while (true)
+            {
+                try
+                {
+                    float returnValue;
+                    return returnValue = float.Parse(value);
+                }
+                catch
+                {
+                    Console.WriteLine("숫자를 입력해 주세요.");
+                    value = Console.ReadLine();
+                }
+            }
+        }
+
+        private int[] CheckEx(string[] values)
+        {
+            int[] pos = new int[3];
+
+            while (true)
+            {
+                for (int i = 0; i < 3;)
+                {
+                    try
+                    {
+                        pos[i] = Convert.ToInt32(values[i]);
+                        i++;
+                    }
+                    catch
+                    {
+                        Console.WriteLine("3개의 숫자를 입력해 주세요.");
+                        values = Console.ReadLine().Split(' ');
+                        i = 0;
+                    }
+                }
+
+                if (values.Length != 3)
+                {
+                    Console.WriteLine("3개의 숫자를 입력해주세요.");
+                    values = Console.ReadLine().Split(' ');
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return pos;
         }
 
         public void InputPipeInfo()
@@ -232,30 +279,30 @@ namespace Pipeline
             {
                 Console.WriteLine("ID를 입력바랍니다.");
                 id = Console.ReadLine();
-                if (repositorys.CheckID(id)) break;
+                if (repository.CheckID(id)) break;
                 Console.WriteLine("일치하는 ID가 있습니다.");
             }
 
             Console.WriteLine("시작 좌표 X, Y, Z의 값을 입력바랍니다.");
             strPos = Console.ReadLine().Split(' ');
-            pos = Util.Instance().CheckEx(strPos);
+            pos = CheckEx(strPos);
             startPos = new Vector3(pos[0], pos[1], pos[2]);
 
             Console.WriteLine("끝 좌표 X, Y, Z의 값을 입력바랍니다.");
             strPos = Console.ReadLine().Split(' ');
-            pos = Util.Instance().CheckEx(strPos);
+            pos = CheckEx(strPos);
             endPos = new Vector3(pos[0], pos[1], pos[2]);
 
             Console.WriteLine("관종을 입력바랍니다.");
             name = Console.ReadLine();
 
             Console.WriteLine("관경을 입력바랍니다.");
-            dia = Util.Instance().CheckEx(Console.ReadLine());
+            dia = CheckEx(Console.ReadLine());
 
             Console.WriteLine("색깔을 입력바랍니다.");
             color = Console.ReadLine();
 
-            repositorys.CreatePipe(id, startPos, endPos, name, dia, color);
+            repository.CreatePipe(id, startPos, endPos, name, dia, color);
 
             Console.Clear();
             Console.WriteLine("생성되었습니다.");
@@ -264,7 +311,7 @@ namespace Pipeline
 
         public void ShowPipeInfo()
         {
-            List<Pipeline> pipes = repositorys.GetPipeInfo();
+            List<Pipeline> pipes = repository.GetPipeInfo();
             Console.Clear();
 
             if(pipes.Count == 0)
@@ -297,30 +344,30 @@ namespace Pipeline
             {
                 Console.WriteLine("수정하실 파이프의 ID를 입력하세요.");
                 id = Console.ReadLine();
-                if (!repositorys.CheckID(id)) break; // 일치하는 id가 없으면 true
+                if (!repository.CheckID(id)) break; // 일치하는 id가 없으면 true
                 Console.WriteLine("일치하는 ID가 없습니다.");
             }
 
             Console.WriteLine("시작 좌표 X, Y, Z의 값을 입력바랍니다.");
             strPos = Console.ReadLine().Split(' ');
-            pos = Util.Instance().CheckEx(strPos);
+            pos = CheckEx(strPos);
             startPos = new Vector3(pos[0], pos[1], pos[2]);
 
             Console.WriteLine("끝 좌표 X, Y, Z의 값을 입력바랍니다.");
             strPos = Console.ReadLine().Split(' ');
-            pos = Util.Instance().CheckEx(strPos);
+            pos = CheckEx(strPos);
             endPos = new Vector3(pos[0], pos[1], pos[2]);
 
             Console.WriteLine("관종을 입력바랍니다.");
             name = Console.ReadLine();
 
             Console.WriteLine("관경을 입력바랍니다.");
-            dia = Util.Instance().CheckEx(Console.ReadLine());
+            dia = CheckEx(Console.ReadLine());
 
             Console.WriteLine("색깔을 입력바랍니다.");
             color = Console.ReadLine();
 
-            repositorys.ModifyPipe(id, startPos, endPos, name, dia, color);
+            repository.ModifyPipe(id, startPos, endPos, name, dia, color);
             Console.Clear();
             Console.WriteLine("수정이 완료되었습니다.");
             Console.ReadLine();
@@ -335,7 +382,7 @@ namespace Pipeline
             {
                 Console.WriteLine("삭제하실 파이프의 ID를 입력바랍니다.");
                 id = Console.ReadLine();
-                if (repositorys.DeletePipe(id)) break;
+                if (repository.DeletePipe(id)) break;
                 Console.WriteLine("입력하신 ID의 파이프 정보가 없습니다.");
             }
 
@@ -352,7 +399,7 @@ namespace Pipeline
             Console.WriteLine("검색하실 관종을 입력바랍니다.");
             name = Console.ReadLine();
 
-            List<Pipeline> pipes = repositorys.SearchSameName(name);
+            List<Pipeline> pipes = repository.SearchSameName(name);
 
             if(pipes.Count == 0)
             {
@@ -379,7 +426,7 @@ namespace Pipeline
             Console.WriteLine("검색하실 관의 지름을 입력바랍니다.");
             dia = float.Parse(Console.ReadLine());
 
-            List<Pipeline> pipes = repositorys.SearchOverDia(dia);
+            List<Pipeline> pipes = repository.SearchOverDia(dia);
 
             if (pipes.Count == 0)
             {

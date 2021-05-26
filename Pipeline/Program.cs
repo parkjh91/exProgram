@@ -19,8 +19,6 @@ namespace Pipeline
             KindOfCompany kind = KindOfCompany.Pangyo;
             ConsoleKeyInfo key;
 
-            uiManager.repository.SetPipeProperty();
-            
             while(true)
             {
                 Console.CursorVisible = false;
