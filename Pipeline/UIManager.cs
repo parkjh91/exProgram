@@ -168,7 +168,8 @@ namespace Pipeline
                     RequestSameName();
                     break;
                 case MainMenu.SearchDia:
-                    repository.SearchDia();
+                    //repository.SearchDia();
+                    RequestOverDia();
                     break;
                 case MainMenu.Exit:
                     Environment.Exit(0);
@@ -363,6 +364,33 @@ namespace Pipeline
             {
                 Console.Clear();
                 for(int i = 0; i < pipes.Count; i++)
+                {
+                    Console.WriteLine(pipes[i].ToString());
+                }
+                Console.ReadLine();
+            }
+        }
+
+        private void RequestOverDia()
+        {
+            float dia;
+
+            Console.Clear();
+            Console.WriteLine("검색하실 관의 지름을 입력바랍니다.");
+            dia = float.Parse(Console.ReadLine());
+
+            List<Pipeline> pipes = repositorys.SearchOverDia(dia);
+
+            if (pipes.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("입력하신 관의 지름보다 큰 파이프 정보가 없습니다.");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.Clear();
+                for (int i = 0; i < pipes.Count; i++)
                 {
                     Console.WriteLine(pipes[i].ToString());
                 }

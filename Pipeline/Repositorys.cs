@@ -207,5 +207,18 @@ namespace Pipeline
 
             return pipes;
         }
+
+        // 관의 지름을 받아와 보다 큰 지름의 관을 리턴함
+        public List<Pipeline> SearchOverDia(float dia)
+        {
+            List<Pipeline> pipes = new List<Pipeline>();
+
+            for(int i = 0; i < pipelines.Count; i++)
+            {
+                if (dia < pipelines[i].PipeDiameter) pipes.Add(pipelines[i]);
+            }
+
+            return pipes;
+        }
     }
 }
